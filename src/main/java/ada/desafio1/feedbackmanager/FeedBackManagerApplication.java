@@ -1,4 +1,4 @@
-package com.example.feedbackmanager;
+package ada.desafio1.feedbackmanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

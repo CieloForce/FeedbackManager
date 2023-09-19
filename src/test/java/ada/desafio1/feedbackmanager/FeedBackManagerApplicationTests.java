@@ -1,4 +1,4 @@
-package com.example.feedbackmanager;
+package ada.desafio1.feedbackmanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
