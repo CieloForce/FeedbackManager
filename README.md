@@ -98,18 +98,18 @@ Mapear entidades com hibernate.
 ``` bash
 <!-- Dependência para AWS SNS -->
 <dependency>
-        <groupId>software.amazon.awssdk</groupId>
-        <artifactId>sns</artifactId>
-        <version>2.x.x</version> <!-- A versão mais recente disponível -->
- </dependency>
+     <groupId>com.amazonaws</groupId>
+     <artifactId>aws-java-sdk-sns</artifactId>
+     <version>1.12.552</version>
+</dependency>
 ```
 
 ``` bash
 <!-- Dependência para AWS SQS -->
 <dependency>
-        <groupId>software.amazon.awssdk</groupId>
-        <artifactId>sqs</artifactId>
-        <version>2.x.x</version> <!-- A versão mais recente disponível -->
+     <groupId>com.amazonaws</groupId>
+     <artifactId>aws-java-sdk-sqs</artifactId>
+     <version>1.12.552</version>
 </dependency>
 ```
 
