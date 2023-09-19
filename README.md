@@ -1,5 +1,5 @@
 <h2>Feedback System</h2>
-Este projeto implementa um sistema de feedback de clientes usando a Amazon Web Services (AWS). O sistema permite que os clientes enviem feedbacks de três tipos: sugestões, elogios e críticas. O sistema processa os feedbacks em segundo plano e atualiza seu status para "Finalizado" quando eles são processados com sucesso.
+Este projeto implementa um sistema de feedback de clientes usando a Amazon Simple Notification Service (SNS). O sistema permite que os clientes enviem feedbacks de três tipos: sugestões, elogios e críticas. O sistema processa os feedbacks em segundo plano e atualiza seu status para "Finalizado" quando eles são processados com sucesso.
 
 <h3>Requisitos técnicos</h3>
 <ul>
