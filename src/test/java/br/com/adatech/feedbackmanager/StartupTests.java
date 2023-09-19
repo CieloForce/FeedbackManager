@@ -1,10 +1,10 @@
-package ada.desafio1.feedbackmanager;
+package br.com.adatech.feedbackmanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FeedBackManagerApplicationTests {
+class StartupTests {
 
     @Test
     void contextLoads() {
