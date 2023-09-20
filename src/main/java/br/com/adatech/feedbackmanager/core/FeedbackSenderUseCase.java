@@ -1,6 +1,6 @@
 package br.com.adatech.feedbackmanager.core;
 
-import br.com.adatech.feedbackmanager.entity.CustomerFeedback;
+import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
 
 
 /** O que a aplicação faz - casos de uso - regras de negócio **/
