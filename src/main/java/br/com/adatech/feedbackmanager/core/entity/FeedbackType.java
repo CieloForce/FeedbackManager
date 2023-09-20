@@ -2,9 +2,9 @@ package br.com.adatech.feedbackmanager.core.entity;
 
 public enum FeedbackType {
 
-    Sugestoes("Sugestões"),
-    Elogios("Elogios"),
-    Criticas("Críticas");
+    suggestion("Sugestão"),
+    compliment("Elogio"),
+    criticism("Crítica");
 
     private String description;
     FeedbackType(String description){

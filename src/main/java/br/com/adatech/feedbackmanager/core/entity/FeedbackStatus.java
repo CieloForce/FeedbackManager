@@ -1,9 +1,9 @@
 package br.com.adatech.feedbackmanager.core.entity;
 
 public enum FeedbackStatus {
-    Recebido("Recebido"),
-    EmProcessamento("Em processamento"),
-    Finalizado("Finalizado");
+    received("Recebido"),
+    processing("Em processamento"),
+    finished("Finalizado");
 
     private String description;
 

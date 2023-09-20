@@ -12,7 +12,7 @@ public class CustomerFeedback {
     private FeedbackStatus status;
 
     public CustomerFeedback(){
-        status = FeedbackStatus.Recebido;
+        status = FeedbackStatus.received;
     }
     public CustomerFeedback(String message, FeedbackType type)
     {
