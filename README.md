@@ -54,11 +54,11 @@ clientes para uma empresa, aproveitando os serviços da AWS, como SNS e SQS.
 
 5. Crie um controlador REST em Java usando a biblioteca Spring Boot para expor
    endpoints para as seguintes operações:
-    1. Enviar um feedback (sugestão, elogio ou crítica) para a fila correspondente no
-       SQS.
-    2. Obter o tamanho atual da fila de feedbacks para cada tipo (Sugestão, Elogio,
-       Crítica).
-    3. Obter informações sobre todos os feedbacks na fila de cada tipo.
+   1. Enviar um feedback (sugestão, elogio ou crítica) para a fila correspondente no
+      SQS.
+   2. Obter o tamanho atual da fila de feedbacks para cada tipo (Sugestão, Elogio,
+      Crítica).
+   3. Obter informações sobre todos os feedbacks na fila de cada tipo.
 
 
 6. Documente a API REST usando a especificação Swagger ou alguma outra ferramenta
@@ -85,11 +85,11 @@ Mapear entidades com hibernate.
 
 ### 4. Endpoints
 
-1. __POST__: **/feedback/send** - para enviar um feedback.
+1. __POST__: **/api/send** - para enviar um feedback.
 
-2. __GET__: **/feedback/size** -fila para obter o tamanho da fila.
+2. __GET__: **/api/size** - para obter o tamanho da fila.
 
-3. __GET__: **/feedback/info** -fila para obter informações sobre os feedbacks na fila.
+3. __GET__: **/api/info** - para obter informações sobre os feedbacks na fila.
 
 ### 5. Integração com AWS SNS e SQS
 
@@ -170,24 +170,24 @@ SUB: Implementar Classe SqsService
 
 1. Iniciar a aplicação Spring Boot
 2. Cliente envia feedback
-    1. Um cliente interage com a aplicação, por exemplo, através de uma interface web ou criando um topico direto pela AWS.
-    2. O cliente envia um feedback, fornecendo informações como FeedbackType (tipo) e mensagem. O id e o FeedbackStatus são atributos setados pelo sistema.
+   1. Um cliente interage com a aplicação, por exemplo, através de uma interface web ou criando um topico direto pela AWS.
+   2. O cliente envia um feedback, fornecendo informações como FeedbackType (tipo) e mensagem. O id e o FeedbackStatus são atributos setados pelo sistema.
 3. Enpoint REST para Enviar Feedback envia feedback do cliente.
-    1. O cliente utiliza o endpoint **POST: /feedback/send** para enviar o feedback.
-    2. O endpoint recebe as informações do feedback corretamente e faz as atribuições default para o id (uuid) e o FeedbackStatus.
-    3. FeedbackStatus inicia com ...
+   1. O cliente utiliza o endpoint **POST: /feedback/send** para enviar o feedback.
+   2. O endpoint recebe as informações do feedback corretamente e faz as atribuições default para o id (uuid) e o FeedbackStatus.
+   3. FeedbackStatus inicia com ...
 4. Publicação do payload no Tópico SNS correspondente.
-    1. A partir do endpoint **POST: /feedback/send**, já com os dados recebidos, o serviço principal (no caso, **SnsService**) é invocado.
-    2. O serviço **SnsService** utiliza o **Cliente SNS** (*ver seção 5.3*) para publicar a mensagem no **tópico SNS** correspondente ao tipo de feedback(Sugestão, Elogio, Crítica)
-        1. Significa que para cada FeedbackType teremos uma fila sendo gerada pelo nosso **Cliente SNS** que, em outras palavras, será o nosso produtor.
+   1. A partir do endpoint **POST: /feedback/send**, já com os dados recebidos, o serviço principal (no caso, **SnsService**) é invocado.
+   2. O serviço **SnsService** utiliza o **Cliente SNS** (*ver seção 5.3*) para publicar a mensagem no **tópico SNS** correspondente ao tipo de feedback(Sugestão, Elogio, Crítica)
+      1. Significa que para cada FeedbackType teremos uma fila sendo gerada pelo nosso **Cliente SNS** que, em outras palavras, será o nosso produtor.
 5. Nosso **Cliente SNS** encaminha a mensagem para as Filas SQS (que serão consumidas).
-    1. O tópico SNS notifica todas as filas SQS que estão subscritas a ele do feedback recém-chegado.
-    2. Cada fila SQS correspondente ao TIPO (FeedBackType) recebe a mensagem e a enfileira corretamente.
+   1. O tópico SNS notifica todas as filas SQS que estão subscritas a ele do feedback recém-chegado.
+   2. Cada fila SQS correspondente ao TIPO (FeedBackType) recebe a mensagem e a enfileira corretamente.
 6. Nosso ***Consumidor de Fila SQS*** (a definir) processa o feedback corretamente.
-    1. Em segundo plano, nosso ***Consumidor de Fila SQS*** (que foi previamente configurado na aplicação) está constamente verificando as filas SQS.
-    2. Quando um **CustomerFeedback** é encontrado na fila SQS, o nosso ***Consumidor de Fila SQS*** o retira da fila e o processa de acordo com a lógica definida, mudando seu **FeedbackStatus** apropriadamente
+   1. Em segundo plano, nosso ***Consumidor de Fila SQS*** (que foi previamente configurado na aplicação) está constamente verificando as filas SQS.
+   2. Quando um **CustomerFeedback** é encontrado na fila SQS, o nosso ***Consumidor de Fila SQS*** o retira da fila e o processa de acordo com a lógica definida, mudando seu **FeedbackStatus** apropriadamente
 7. Atualização do **FeedbackStatus**
-    1. Após o processamento bem sucedido o status é atualizado para "Finalizado".
+   1. Após o processamento bem sucedido o status é atualizado para "Finalizado".
 
 
 ### Considerações adicionais
