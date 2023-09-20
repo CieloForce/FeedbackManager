@@ -1,10 +1,8 @@
-package br.com.adatech.feedbackmanager.entity.service;
+package br.com.adatech.feedbackmanager.core.entity.service;
 
-import br.com.adatech.feedbackmanager.entity.CustomerFeedback;
-import br.com.adatech.feedbackmanager.entity.FeedbackStatus;
-import br.com.adatech.feedbackmanager.entity.FeedbackType;
-import br.com.adatech.feedbackmanager.entity.repository.CustomerFeedbackRepository;
-import br.com.adatech.feedbackmanager.exception.CustomerFeedbackNotFoundException;
+import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
+import br.com.adatech.feedbackmanager.core.entity.repository.CustomerFeedbackRepository;
+import br.com.adatech.feedbackmanager.core.exception.CustomerFeedbackNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

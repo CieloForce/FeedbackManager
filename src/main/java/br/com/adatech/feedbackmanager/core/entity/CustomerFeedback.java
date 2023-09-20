@@ -1,4 +1,4 @@
-package br.com.adatech.feedbackmanager.entity;
+package br.com.adatech.feedbackmanager.core.entity;
 
 import jakarta.persistence.*;
 

@@ -1,4 +1,4 @@
-package br.com.adatech.feedbackmanager.exception;
+package br.com.adatech.feedbackmanager.core.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -8,3 +8,7 @@ spring.h2.console.enabled=true
 # Configuração do console do H2 para verificar os dados persistidos em desenvolvimento
 spring.h2.console.path=/h2-console
 spring.h2.console.settings.web-allow-others=true
+
+# JPA
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
