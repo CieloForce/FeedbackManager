@@ -81,6 +81,13 @@
             <version>3.0.0</version>
         </dependency>
 
+        <!-- Jackson: Converte objeto java numa representação JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
