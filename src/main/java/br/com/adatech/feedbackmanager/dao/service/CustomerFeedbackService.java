@@ -7,13 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CustomerFeedbackService {
 
+    private final CustomerFeedbackRepository repository;
     @Autowired
-    private CustomerFeedbackRepository repository;
+    public CustomerFeedbackService(CustomerFeedbackRepository repository){
+        this.repository = repository;
+    }
 
     /**
      * Retorna todos os CustomerFeedback
@@ -39,7 +41,6 @@ public class CustomerFeedbackService {
      * @return CustomerFeedback salvo
      */
     public CustomerFeedback create(CustomerFeedback model) {
-        model.setId(getUUID());
         repository.save(model);
         return model;
     }
@@ -66,13 +67,5 @@ public class CustomerFeedbackService {
     public void delete(String id) {
         findById(id);
         repository.deleteById(id);
-    }
-
-    /**
-     * Gera um novo UUID
-     * @return UUID gerado
-     */
-    private static String getUUID(){
-        return UUID.randomUUID().toString();
     }
 }
