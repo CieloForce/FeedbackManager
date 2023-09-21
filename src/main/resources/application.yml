@@ -6,3 +6,5 @@ spring.h2.console.enabled=true
 aws.access-key=SUA_ACCESS_KEY
 aws.secret-key=SUA_SECRET_KEY
 aws.region=SUA_REGIAO
+spring.mvc.cors.allowed-origins=*
+spring.mvc.cors.allowed-methods=GET,POST,PUT,DELETE
