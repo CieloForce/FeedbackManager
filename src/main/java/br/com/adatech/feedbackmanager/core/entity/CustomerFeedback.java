@@ -2,11 +2,13 @@ package br.com.adatech.feedbackmanager.core.entity;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 public class CustomerFeedback {
 
     @Id
-    private String id;
+    private String uuid;
     private String message;
     private FeedbackType type;
     private FeedbackStatus status;
@@ -17,13 +19,12 @@ public class CustomerFeedback {
     public CustomerFeedback(String message, FeedbackType type)
     {
         this();
+        this.uuid = UUID.randomUUID().toString();
         this.message = message;
         this.type = type;
     }
 
-    public void setId(String id){ this.id = id; }
-
-    public String getId(){ return id; }
+    public String getUuid(){ return uuid; }
 
     public void setMessage(String message){ this.message = message; }
 
