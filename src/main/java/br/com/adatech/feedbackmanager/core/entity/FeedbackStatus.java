@@ -5,7 +5,7 @@ public enum FeedbackStatus {
     processing("Em processamento"),
     finished("Finalizado");
 
-    private String description;
+    private final String description;
 
     FeedbackStatus(String description){
         this.description = description;

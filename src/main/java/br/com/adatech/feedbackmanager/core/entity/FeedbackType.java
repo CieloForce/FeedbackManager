@@ -6,9 +6,12 @@ public enum FeedbackType {
     compliment("Elogio"),
     criticism("Crítica");
 
-    private String description;
+    private final String description;
     FeedbackType(String description){
         this.description = description;
+    }
+    public String getDescription(){
+        return description;
     }
 
 }
