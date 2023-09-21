@@ -2,6 +2,7 @@ package br.com.adatech.feedbackmanager.service;
 
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
 import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
+import br.com.adatech.feedbackmanager.infra.aws.AwsSnsConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class InfoEndpointService {
         } else {
             message = this.getEnqueuedInfoConsumed();
             System.out.println("\n Informações padrão considerando todas as filas \n");
+
+            AwsSnsConfig log = new AwsSnsConfig();
+            System.out.println(log);
         }
 
         return message;
