@@ -1,7 +1,7 @@
-package br.com.adatech.feedbackmanager.core.entity.service;
+package br.com.adatech.feedbackmanager.dao.service;
 
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
-import br.com.adatech.feedbackmanager.core.entity.repository.CustomerFeedbackRepository;
+import br.com.adatech.feedbackmanager.dao.repository.CustomerFeedbackRepository;
 import br.com.adatech.feedbackmanager.core.exception.CustomerFeedbackNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,12 +33,23 @@ public class CustomerFeedbackService {
     }
 
 
+    /**
+     *  Salva um novo CustomerFeedback
+     * @param model - CustomerFeedback para ser salvo
+     * @return CustomerFeedback salvo
+     */
     public CustomerFeedback create(CustomerFeedback model) {
         model.setId(getUUID());
         repository.save(model);
         return model;
     }
 
+    /**
+     * Atualiza um CustomerFeedback existente
+     * @param id - id do CustomerFeedback
+     * @param model - CustomerFeedback para atualizar
+     * @return CustomerFeedback atualizado
+     */
     public CustomerFeedback update(String id, CustomerFeedback model) {
         CustomerFeedback modelUpdated = findById(id);
         modelUpdated.setType(model.getType());
@@ -48,11 +59,19 @@ public class CustomerFeedbackService {
         return modelUpdated;
     }
 
+    /**
+     * Exclui um CustomerFeedback
+     * @param id - Id do CustomerFeedback a ser excluido
+     */
     public void delete(String id) {
         findById(id);
         repository.deleteById(id);
     }
 
+    /**
+     * Gera um novo UUID
+     * @return UUID gerado
+     */
     private static String getUUID(){
         return UUID.randomUUID().toString();
     }

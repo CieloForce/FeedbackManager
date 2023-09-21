@@ -1,4 +1,4 @@
-package br.com.adatech.feedbackmanager.core.entity.repository;
+package br.com.adatech.feedbackmanager.dao.repository;
 
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
 import org.springframework.data.jpa.repository.JpaRepository;
