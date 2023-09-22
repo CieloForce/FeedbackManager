@@ -12,6 +12,8 @@ import software.amazon.awssdk.services.sns.SnsClient;
 @Configuration
 public class AwsSnsConfig {
 
+
+
     @Value("${aws.accessKeyId}")
     private String accessKeyId;
 

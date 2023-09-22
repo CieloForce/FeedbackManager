@@ -2,6 +2,7 @@ package br.com.adatech.feedbackmanager.service;
 
 import br.com.adatech.feedbackmanager.application.FeedbackSenderService;
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
+import br.com.adatech.feedbackmanager.core.entity.FeedbackStatus;
 import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
 import br.com.adatech.feedbackmanager.core.util.FeedbackTypeConverter;
 import br.com.adatech.feedbackmanager.dao.dto.CustomerFeedbackDTO;
@@ -38,16 +39,21 @@ public class SendFeedbackEnpointService {
 
         // Casos de uso
         try {
-            //Criar tópicos SNS na AWS via código se der tempo.
-            //Criar filas SQS correspondentes a cada tópico via código se der tempo.
-            //Fazer cada fila SQS criada assinar o seu tópico SNS correspondente via código se der tempo.
+            //Criar tópicos SNS na AWS via código se der tempo. Feito, mas não testado.
+            //Criar filas SQS correspondentes a cada tópico via código se der tempo. A fazer.
+            //Fazer cada fila SQS criada assinar o seu tópico SNS correspondente via código se der tempo. A fazer.
 
             //Publica CustomerFeedback nos tópicos SNS conforme o FeedbackType
             this.feedbackSenderService.sendCustomerFeedback(customerFeedback);
 
-            return ResponseEntity.ok("Customer Feedback published to SNS sucessfully");
+            //Atualiza o status para "em processamento" e atualiza o valor no banco de dados.
+            customerFeedback.setStatus(FeedbackStatus.processing);
+            repository.update(customerFeedback.getUuid(), customerFeedback);
+
+            return ResponseEntity.ok("Customer Feedback published to SNS sucessfully!");
         }catch (Exception e) {
             // TO DO: Discover the "real" exception type triggered here and personalize it properly.
+            System.err.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in send customer feedback to SNS topic");
         }
     }
