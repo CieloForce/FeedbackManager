@@ -17,6 +17,9 @@ public class SizeEndpointService {
             message = this.queueSize();
             System.out.println("\nTamanho padrão considerando todas as filas juntas\n");
         }
+
+        message = "{ \"topics\": { \"elogio\": { \"ApproximateNumberOfMessages\": 0, \"ApproximateNumberOfMessagesNotVisible\": 0, \"ApproximateNumberOfMessagesDelayed\": 0, \"totalSize\": 0 }, \"sugestao\": { \"ApproximateNumberOfMessages\": 0, \"ApproximateNumberOfMessagesNotVisible\": 0, \"ApproximateNumberOfMessagesDelayed\": 0, \"totalSize\": 0 }, \"critica\": { \"ApproximateNumberOfMessages\": 0, \"ApproximateNumberOfMessagesNotVisible\": 0, \"ApproximateNumberOfMessagesDelayed\": 0, \"totalSize\": 0 } }, \"totalSize\": 0 }";
+
         return message;
     }
 
