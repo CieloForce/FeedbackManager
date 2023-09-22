@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.sns.SnsClient;
 
 @Service
-public class SnsFeedbackSender implements FeedbackSenderAdapter {
+public class SnsPublisherService implements FeedbackSenderAdapter {
 
     private final SnsClient snsClient;
 
     @Autowired
-    public SnsFeedbackSender(SnsClient snsClient){
+    public SnsPublisherService(SnsClient snsClient){
        this.snsClient = snsClient;
     }
     @Override

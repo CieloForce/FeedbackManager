@@ -18,9 +18,6 @@ public class InfoEndpointService {
         } else {
             message = this.getEnqueuedInfoConsumed();
             System.out.println("\n Informações padrão considerando todas as filas \n");
-
-            AwsSnsConfig log = new AwsSnsConfig();
-            System.out.println(log);
         }
 
         return message;

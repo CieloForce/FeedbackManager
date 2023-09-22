@@ -10,21 +10,21 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 /** Faz com que o spring faça a instanciação correta do nosso cliente sqs. **/
 @Configuration
 public class AwsSqsConfig {
-//    @Value("${aws.accessKeyId}")
-//    private String accessKeyId;
-//
-//    @Value("${aws.secretAccessKey}")
-//    private String secretAccessKey;
-//
-//    @Value("${aws.region}")
-//    private String region;
-//
-//    @Bean
-//    public SqsClient sqsClient() {
-//        return SqsClient.builder()
-//                .region(Region.of(region))
-//                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey)))
-//                .build();
-//    }
+    @Value("${aws.accessKeyId}")
+    private String accessKeyId;
+
+    @Value("${aws.secretAccessKey}")
+    private String secretAccessKey;
+
+    @Value("${aws.region}")
+    private String region;
+
+    @Bean
+    public SqsClient sqsClient() {
+        return SqsClient.builder()
+                .region(Region.of(region))
+                .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey)))
+                .build();
+    }
 }
 
