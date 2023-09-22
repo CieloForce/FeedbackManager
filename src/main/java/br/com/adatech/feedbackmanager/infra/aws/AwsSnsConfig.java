@@ -1,7 +1,6 @@
 package br.com.adatech.feedbackmanager.infra.aws;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -13,13 +12,15 @@ import software.amazon.awssdk.services.sns.SnsClient;
 @Configuration
 public class AwsSnsConfig {
 
-    private final String accessKeyId = "AKIAYGVI3ALTAEFZXPWW";
+    @Value("${aws.accessKeyId}")
+    private String accessKeyId;
 
+    @Value("${aws.secretAccessKey}")
+    private String secretAccessKey;
 
-    private final String secretAccessKey = "aeBcnCWrxI7ouN6wC9L3jhBlxX2cUrlLizY1P8jT";
+    @Value("${aws.region}")
+    private String region;
 
-
-    private final String region = "us-east-1";
     @Bean
     public SnsClient snsClient() {
         System.out.println();
@@ -29,11 +30,6 @@ public class AwsSnsConfig {
                 .build();
     }
 
-    public AwsSnsConfig(){
-        System.out.println("AccessKey= " + this.accessKeyId);
-        System.out.println("SecretKey= " + this.secretAccessKey);
-        System.out.println("Region= " + this.region);
-    }
 }
 //ativar a deduplicação na configuração da fila fifo.
 //usar o pacote com.amazonaws
