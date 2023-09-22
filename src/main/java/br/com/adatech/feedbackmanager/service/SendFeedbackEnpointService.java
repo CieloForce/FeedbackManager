@@ -44,7 +44,7 @@ public class SendFeedbackEnpointService {
             //Criar filas SQS correspondentes a cada tópico via código se der tempo.
             //Fazer cada fila SQS criada assinar o seu tópico SNS correspondente via código se der tempo.
 
-            //Abastecer os tópicos SNS com CustomerFeedback conforme seu tipo
+            //Publica CustomerFeedback nos tópicos SNS conforme o FeedbackType
             this.feedbackSenderService.sendCustomerFeedback(customerFeedback);
 
             return ResponseEntity.ok("Customer Feedback published to SNS sucessfully");
