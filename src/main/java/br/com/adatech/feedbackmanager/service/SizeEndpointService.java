@@ -16,10 +16,10 @@ public class SizeEndpointService {
 
     public String getSize(String queue) {
         if(queue != null) {
-            System.out.println("\nTamanho referente à fila " + queue + "\n");
+            System.out.println("\nRecebendo dados da AWS para " + queue + "...\n");
 
         } else {
-            System.out.println("\nTamanho padrão considerando todas as filas juntas\n");
+            System.out.println("\nRecebendo todos os dados da AWS...\n");
         }
         return sqsService.getGeneralQueueSizeInfoAsStringJSON();
     }
