@@ -14,16 +14,8 @@ public class QueueSizeInfo {
         return globalTopics;
     }
 
-    public void setGlobalTopics(Map<String, Map<String, Map<String, Integer>>> globalTopics) {
-        this.globalTopics = globalTopics;
-    }
-
     public Map<String, Integer> getGlobalSize() {
         return globalSize;
-    }
-
-    public void setGlobalSize(Map<String, Integer> globalSize) {
-        this.globalSize = globalSize;
     }
 
 }
