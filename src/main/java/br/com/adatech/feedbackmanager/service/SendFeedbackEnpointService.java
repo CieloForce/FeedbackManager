@@ -48,7 +48,7 @@ public class SendFeedbackEnpointService {
             //Publica CustomerFeedback nos tópicos SNS conforme o FeedbackType
             this.feedbackSenderService.sendCustomerFeedback(customerFeedback);
 
-            //Atualiza o status do Customer Feedback para "em processamento" e atualiza o valor dele no banco de dados.
+            //Atualiza o status do CustomerFeedback para "em processamento" e atualiza o valor dele no banco de dados.
             customerFeedback.setStatus(FeedbackStatus.processing);
             repository.update(customerFeedback.getUuid(), customerFeedback);
 
