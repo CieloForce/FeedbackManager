@@ -34,8 +34,7 @@ public class SqsService {
         return response.attributes();
     }
 
-    /** Formata integralmente a saída das informações necessárias para subir o painel administrativo no frontend pelo endpoint
-     * GET /api/size abstraindo toda a complexidade do payload da AWS, deixando o endpoint do back pronto para ser usado no front. **/
+    /** Faz a busca dos dados de todas as filas FIFO presentes na AWS. **/
     private QueueSizeInfo getGeneralQueueSizeInfo(){ //funcionando
         Map<String, Map<String, Map<String, Integer>>> topics = new HashMap<>();
         Map<String, Map<String, Integer>> topicsPayloadGlobal = new HashMap<>();
@@ -75,6 +74,7 @@ public class SqsService {
         return  new QueueSizeInfo(topics, globalSize);
     }
 
+    /** Transforma a busca de dados referentes ao tamanho de todas as filas presentes na AWS num formato JSON.**/
     public String getGeneralQueueSizeInfoAsStringJSON() { //funcionando!!
         QueueSizeInfo result = this.getGeneralQueueSizeInfo();
         Map<String, Map<String, Map<String, Integer>>> topics = result.getGlobalTopics();

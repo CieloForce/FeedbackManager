@@ -19,7 +19,7 @@ public class SizeEndpointService {
             System.out.println("\nRecebendo dados da AWS para " + queue + "...\n");
 
         } else {
-            System.out.println("\nRecebendo todos os dados da AWS...\n");
+            System.out.println("\nRecebendo dados da AWS...\n");
         }
         return sqsService.getGeneralQueueSizeInfoAsStringJSON();
     }
