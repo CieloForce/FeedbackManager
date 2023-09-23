@@ -84,7 +84,7 @@ public class SqsService {
             ObjectMapper objectMapper = new ObjectMapper();
             String preparedTopics = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(topics.get("topics"));
             String preparedGlobalSize = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(globalSize.get("sizeInfo"));
-
+            System.out.println("Todos os dados foram recebidos com sucesso.\n");
             return "{ \"topics\": " + preparedTopics + ", \"totalSize\": " + preparedGlobalSize + "}";
         }catch(JsonProcessingException e){
             System.err.println("Ocorreu um erro ao converter as informações gerais sobre os tamanhos das filas: " + e.getMessage());
@@ -106,9 +106,11 @@ public class SqsService {
     }
 
     public String getQueueUrlByFeedbackType(String queueType) { //funcionando
-        String queueName = this.getQueueName(queueType); // Faz o fetch do nome da fila automáticamente direto da AWS a partir de todas as filas existentes.
+        String capitalized = capitalizeFirstLetter(queueType);
+        String queueName = this.getQueueName(capitalized); // Faz o fetch do nome da fila automáticamente direto da AWS a partir de todas as filas existentes.
         if (queueName == null)
-            throw new RuntimeException("Não foi encontrado nenhuma fila com nome referente ao FeedbackType informado, por favor, nomeie suas filas adequadamente na AWS.");
+            throw new RuntimeException("Não foi encontrado nenhuma fila com nome referente ao FeedbackType " + capitalized +
+                    ", por favor, nomeie suas filas adequadamente na AWS ou verifique se sua ortografia esta correta.");
         GetQueueUrlRequest queueUrlRequest = GetQueueUrlRequest.builder().queueName(queueName).build();
         GetQueueUrlResponse queueUrlResponse = sqsClient.getQueueUrl(queueUrlRequest);
         return queueUrlResponse.queueUrl();
@@ -122,5 +124,11 @@ public class SqsService {
             case "critica" -> this.getQueueUrlByFeedbackType("Criticism");
             default -> throw new RuntimeException("Invalid Portuguese Semantic of Feedback type!");
         };
+    }
+    public static String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input; // Retorna a string original se estiver vazia ou nula
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 }
