@@ -1,41 +1,50 @@
 package br.com.adatech.feedbackmanager.service;
 
+import br.com.adatech.feedbackmanager.application.FeedbackReceiverService;
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
 import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
 import br.com.adatech.feedbackmanager.infra.aws.AwsSnsConfig;
+import br.com.adatech.feedbackmanager.infra.aws.SqsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.services.sqs.model.Message;
+
+import java.util.List;
 
 @Service
 public class InfoEndpointService {
+    private final FeedbackReceiverService feedbackReceiverService;
+    private final SqsService sqsService;
+    @Autowired
+    public InfoEndpointService(FeedbackReceiverService feedbackReceiverService, SqsService sqsService){
+        this.feedbackReceiverService = feedbackReceiverService;
+        this.sqsService = sqsService;
+    }
     public String getInfo(String queue) {
-        String message;
-
-        if (queue != null) {
-            message = this.getEnqueuedInfoConsumed();
-            System.out.println("\nInformações referentes à fila " + queue + "\n");
-        } else {
-            message = this.getEnqueuedInfoConsumed();
-            System.out.println("\n Informações padrão considerando todas as filas \n");
+        if (queue == null) {
+            return "Bem-vindo ao Painel Administrativo. Escolha um serviço e forneça os parâmetros necessários.";
         }
-
-        return message;
+        return this.dequeueCustomerFeedbackFromSQS(queue);
     }
     //Mocked info
-    public String getEnqueuedInfoConsumed(){
-        //TO DO: Discover how to recover the published CustomerFeedback from each possible queue from sqs.
+    public String dequeueCustomerFeedbackFromSQS(String queue){
+        //Recover the next published CustomerFeedback from each possible queue from sqs.
+        System.out.println("\nObtendo queuUrl da Aws correspondente à fila: " + queue + "\n");
+        String queueUrl = sqsService.getQueueUrlByFeedbackType(queue);
+        int maxMessages = 1; //Pode ser um outro requestparam... se der tempo!
+        //Por default será consumido apenas um item da SQS por vez.
+        //mas a opção desse consumo de mensagens ocorrer em batch está habilitada...
+        List<Message> messages = feedbackReceiverService.receiveCustomerFeedback(queueUrl,maxMessages);
 
-        // Beginning Mock
-        ObjectMapper toJSON = new ObjectMapper();
-        CustomerFeedback customerFeedbackConsumed = new CustomerFeedback("Sonhe grande, comece pequeno, evolua sempre.", FeedbackType.suggestion);
-        String customerFeedbackConsumedJSON = null;
-        try{
-            customerFeedbackConsumedJSON = toJSON.writeValueAsString(customerFeedbackConsumed);
-        } catch(JsonProcessingException e){
-            System.out.println("Ocorreu uma exception ao tentar converter objeto CustumerFeedback para JSON: " + e.getMessage() + "\n" + e.getCause());
+        StringBuilder result = new StringBuilder();
+
+        for(Message message : messages){
+            System.out.println("Raw Message: " + message.toString());
+            result.append("Message: ").append(message.body()).append("\n");
+            feedbackReceiverService.deleteMessage(queueUrl, message.receiptHandle());
         }
-        // End Mock
-        return customerFeedbackConsumedJSON;
+        return result.toString();
     }
 }

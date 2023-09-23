@@ -1,7 +1,7 @@
 package br.com.adatech.feedbackmanager.application;
 
 import br.com.adatech.feedbackmanager.adapter.FeedbackSenderAdapter;
-import br.com.adatech.feedbackmanager.core.FeedbackSenderUseCase;
+import br.com.adatech.feedbackmanager.core.UseCase.FeedbackSenderUseCase;
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
