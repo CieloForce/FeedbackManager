@@ -1,10 +1,7 @@
 package br.com.adatech.feedbackmanager.service;
 
 import br.com.adatech.feedbackmanager.application.FeedbackReceiverService;
-import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
-import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
 import br.com.adatech.feedbackmanager.dao.service.CustomerFeedbackService;
-import br.com.adatech.feedbackmanager.infra.aws.AwsSnsConfig;
 import br.com.adatech.feedbackmanager.infra.aws.SqsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
