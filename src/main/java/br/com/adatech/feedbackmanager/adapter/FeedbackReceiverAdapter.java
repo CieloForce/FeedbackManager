@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface FeedbackReceiverAdapter {
     List<Message> receiveCustomerFeedback(String queueUrl, int maxMessages);
-    public void deleteMessage(String queueUrl, String receiptHandle);
+    void deleteMessage(String queueUrl, String receiptHandle);
 }

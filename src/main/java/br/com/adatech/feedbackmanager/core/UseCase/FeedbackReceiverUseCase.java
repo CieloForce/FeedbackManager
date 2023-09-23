@@ -9,5 +9,5 @@ public interface FeedbackReceiverUseCase {
 
   /** Pocessa os CustomerFeedbacks conforme a ordem em que foram recebidos. **/
   List<Message> receiveCustomerFeedback(String queueUrl, int maxMessages);
-  public void deleteMessage(String queueUrl, String receiptHandle);
+  void deleteMessage(String queueUrl, String receiptHandle);
 }
