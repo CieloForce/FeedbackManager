@@ -2,9 +2,9 @@ package br.com.adatech.feedbackmanager.core.entity;
 
 public enum FeedbackType {
 
-    suggestion("Suggestion"), //Duplicação sns ativada na aws, com desduplicação sqs, sem criptografia, com alto throughput --> limitação da transferência com base no GroupId
-    compliment("Compliment"), //Duplicação sns desativada na aws, com desduplicação sqs, sem criptografia, sem alto throughput --> realmente é necessário a desduplicação.
-    criticism("Criticism"); //Duplicação sns desativada na aws, com desduplicação, com criptografia, sem throughput
+    SUGGESTION("Suggestion"), //Duplicação sns ativada na aws, com desduplicação sqs, sem criptografia, com alto throughput --> limitação da transferência com base no GroupId
+    COMPLIMENT("Compliment"), //Duplicação sns desativada na aws, com desduplicação sqs, sem criptografia, sem alto throughput --> realmente é necessário a desduplicação.
+    CRITISCISM("Criticism"); //Duplicação sns desativada na aws, com desduplicação, com criptografia, sem throughput
 
     private final String description;
     FeedbackType(String description){

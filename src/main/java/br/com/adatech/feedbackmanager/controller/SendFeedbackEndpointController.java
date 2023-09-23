@@ -17,7 +17,7 @@ public class SendFeedbackEndpointController {
         this.sendFeedbackEnpointService = sendFeedbackEnpointService;
     }
     @PostMapping("/send")
-    public ResponseEntity<String> sendFeedback(@RequestBody CustomerFeedbackDTO customerFeedbackDTO){
+    public ResponseEntity<String>sendFeedback(@RequestBody CustomerFeedbackDTO customerFeedbackDTO){
        return this.sendFeedbackEnpointService.sendFeedback(customerFeedbackDTO);
     }
 }

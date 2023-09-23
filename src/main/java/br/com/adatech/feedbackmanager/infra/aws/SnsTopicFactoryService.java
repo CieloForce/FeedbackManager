@@ -20,7 +20,7 @@ public class SnsTopicFactoryService {
 
     public String createSnsTopicBasedOn(String feedbackType){
         try{
-            String topicName = "Feedback_" + feedbackType;
+            String topicName = "ProgramBasedCreation_Feedback_" + feedbackType;
             CreateTopicRequest topicRequest = CreateTopicRequest.builder().name(topicName).build();
             CreateTopicResponse topicResponse = snsClient.createTopic(topicRequest);
             return topicResponse.topicArn();

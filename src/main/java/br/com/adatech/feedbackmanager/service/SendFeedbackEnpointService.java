@@ -7,6 +7,8 @@ import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
 import br.com.adatech.feedbackmanager.core.util.FeedbackTypeConverter;
 import br.com.adatech.feedbackmanager.dao.dto.CustomerFeedbackDTO;
 import br.com.adatech.feedbackmanager.dao.service.CustomerFeedbackService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,15 +48,27 @@ public class SendFeedbackEnpointService {
             //Publica CustomerFeedback nos tópicos SNS conforme o FeedbackType
             this.feedbackSenderService.sendCustomerFeedback(customerFeedback);
 
-            //Atualiza o status para "em processamento" e atualiza o valor no banco de dados.
+            //Atualiza o status do Customer Feedback para "em processamento" e atualiza o valor dele no banco de dados.
             customerFeedback.setStatus(FeedbackStatus.processing);
             repository.update(customerFeedback.getUuid(), customerFeedback);
 
-            return ResponseEntity.ok("Customer Feedback published to SNS sucessfully!");
+
+
+            return ResponseEntity.ok(customerFeedbackToJSON(customerFeedback));
         }catch (Exception e) {
             // TO DO: Discover the "real" exception type triggered here and personalize it properly.
             System.err.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in send customer feedback to SNS topic");
+        }
+    }
+
+    public String customerFeedbackToJSON(CustomerFeedback customerFeedback){
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(customerFeedback);
+        }catch(JsonProcessingException e){
+            System.err.println("Ocorreu um erro ao converter CustomerFeedback para Json: " + e.getMessage());
+            return null;
         }
     }
 

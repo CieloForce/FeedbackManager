@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.ListTopicsResponse;
 import software.amazon.awssdk.services.sns.model.PublishRequest;
+import software.amazon.awssdk.services.sns.model.PublishResponse;
 import software.amazon.awssdk.services.sns.model.Topic;
 
 import java.util.List;
@@ -26,17 +27,13 @@ public class SnsPublisherService implements FeedbackSenderAdapter {
 
     @Override
     public void sendCustomerFeedback(CustomerFeedback customerFeedback) {
-        //Se na AWS não existe ainda um tópico SNS configurado com base no CustomerFeedback fornecido,
-        // crie um e o vincule à fila sqs fifo automaticamente.
-//        if(!(topicFactory.topicExists(customerFeedback.getType().getDescription())))
-//            topicFactory.createSnsTopicBasedOn(customerFeedback.getType().getDescription());
-
-        //Fazer a publicação do CustomerFeedback no tópico Sns correspondente ao FeedbackType.
-        publishCustomerFeedbackToAwsSnsTopic(customerFeedback);
+        //Faz a publicação do CustomerFeedback no tópico Sns correspondente ao FeedbackType.
+        String messageId = publishCustomerFeedbackToAwsSnsTopic(customerFeedback);
+        customerFeedback.setMessageId(messageId);
     }
 
     /** Faz a publicação do CustomerFeedback no tópico SNS da AWS conforme o FeedbackType. **/
-    public void publishCustomerFeedbackToAwsSnsTopic(CustomerFeedback customerFeedback){
+    public String publishCustomerFeedbackToAwsSnsTopic(CustomerFeedback customerFeedback){
         String topicARN = null;
         try{
             topicARN = getTopicArnByFeedbackType(customerFeedback.getType());
@@ -56,6 +53,7 @@ public class SnsPublisherService implements FeedbackSenderAdapter {
         String feedbackType = customerFeedback.getType().getDescription();
 
         System.out.println("\nTopic ARN encontrado: " + topicARN + "\n");
+
         PublishRequest request = PublishRequest.builder()
                 .topicArn(topicARN)
                 .messageGroupId(feedbackType)
@@ -63,9 +61,11 @@ public class SnsPublisherService implements FeedbackSenderAdapter {
 
         System.out.println("Request info to publish in SNS topic: " + request.toString());
 
-        snsClient.publish(request);
+        PublishResponse response = snsClient.publish(request);
+
         System.out.println("CustomerFeedback de id " + customerFeedback.getUuid() +
                 " foi publicado com sucesso em: " + topicARN);
+        return response.messageId();
     }
     /**
      * Faz a busca do ARN do tópico SNS criado na AWS conforme o FeedbackType presente na identificação do ARN.

@@ -9,6 +9,7 @@ public class CustomerFeedback {
 
     @Id
     private String uuid;
+    private String messageId;
     private String message;
     private FeedbackType type;
     private FeedbackStatus status;
@@ -37,4 +38,14 @@ public class CustomerFeedback {
     public void setStatus(FeedbackStatus status){ this.status = status; }
 
     public FeedbackStatus getStatus(){ return status; }
+
+    /** Allow to recover the right message from the database after sucessfull consumption **/
+    public String getMessageId() {
+        return messageId;
+    }
+
+    /** Allow setting the messageId field afeter sucessfull sns topic publication **/
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
 }
