@@ -264,7 +264,7 @@ SUB: Implementar Classe SqsService
 <a id="arquitetura"></a>
 ## 5 - Arquitetura
 
-- br
+- br.com.adatech.feedbackmanager
   - adapter\
     [FeedbackReceiverAdapter](src/main/java/br/com/adatech/feedbackmanager/adapter/FeedbackReceiverAdapter.java)\
     [FeedbackSenderAdapter](src/main/java/br/com/adatech/feedbackmanager/adapter/FeedbackSenderAdapter.java)
