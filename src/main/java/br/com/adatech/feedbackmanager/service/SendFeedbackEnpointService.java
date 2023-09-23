@@ -35,16 +35,9 @@ public class SendFeedbackEnpointService {
         FeedbackType type = FeedbackTypeConverter.fromString(customerFeedbackDTO.type());
         String message = customerFeedbackDTO.message();
         CustomerFeedback customerFeedback = new CustomerFeedback(message, type);
-
         //Fazer a persistência no banco.
         repository.create(customerFeedback);
-
-        // Casos de uso
         try {
-            //Criar tópicos SNS na AWS via código se der tempo. Feito, mas não testado.
-            //Criar filas SQS correspondentes a cada tópico via código se der tempo. A fazer.
-            //Fazer cada fila SQS criada assinar o seu tópico SNS correspondente via código se der tempo. A fazer.
-
             //Publica CustomerFeedback nos tópicos SNS conforme o FeedbackType
             this.feedbackSenderService.sendCustomerFeedback(customerFeedback);
 
@@ -56,7 +49,6 @@ public class SendFeedbackEnpointService {
 
             return ResponseEntity.ok(customerFeedbackToJSON(customerFeedback));
         }catch (Exception e) {
-            // TO DO: Discover the "real" exception type triggered here and personalize it properly.
             System.err.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in send customer feedback to SNS topic");
         }
