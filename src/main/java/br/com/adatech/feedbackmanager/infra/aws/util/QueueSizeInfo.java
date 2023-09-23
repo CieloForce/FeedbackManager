@@ -3,22 +3,27 @@ package br.com.adatech.feedbackmanager.infra.aws.util;
 import java.util.Map;
 
 public class QueueSizeInfo {
-    private Map<String, QueueInfo> topics;
-    private int totalSize;
+    private Map<String, Map<String, Map<String, Integer>>> globalTopics;
+    private Map<String, Integer> globalSize;
 
-    public Map<String, QueueInfo> getTopics() {
-        return topics;
+    public QueueSizeInfo(Map<String, Map<String, Map<String, Integer>>> globalTopics, Map<String, Integer> globalSize) {
+        this.globalTopics = globalTopics;
+        this.globalSize = globalSize;
+    }
+    public Map<String, Map<String, Map<String, Integer>>> getGlobalTopics() {
+        return globalTopics;
     }
 
-    public void setTopics(Map<String, QueueInfo> topics) {
-        this.topics = topics;
+    public void setGlobalTopics(Map<String, Map<String, Map<String, Integer>>> globalTopics) {
+        this.globalTopics = globalTopics;
     }
 
-    public int getTotalSize() {
-        return totalSize;
+    public Map<String, Integer> getGlobalSize() {
+        return globalSize;
     }
 
-    public void setTotalSize(int totalSize) {
-        this.totalSize = totalSize;
+    public void setGlobalSize(Map<String, Integer> globalSize) {
+        this.globalSize = globalSize;
     }
+
 }
