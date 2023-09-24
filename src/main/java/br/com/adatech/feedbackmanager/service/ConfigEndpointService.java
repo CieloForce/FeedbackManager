@@ -1,7 +1,6 @@
 package br.com.adatech.feedbackmanager.service;
 
 import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
-import br.com.adatech.feedbackmanager.dao.dto.CustomerFeedbackDTO;
 import br.com.adatech.feedbackmanager.infra.aws.SnsTopicFactoryService;
 import br.com.adatech.feedbackmanager.infra.aws.SqsQueueFactoryService;
 import org.springframework.beans.factory.annotation.Autowired;
