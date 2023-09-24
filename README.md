@@ -312,7 +312,11 @@ SUB: Implementar Classe SqsService
 ## 6 - INSTRUÇÕES DE USO
 - Clone o repositório ou baixe o código fonte.
 - Execute o código.
-- Acesse GET localhost:8080/config para criar de forma automatizada as SNS e SQS na AWS.
+  - Crie manualmente os tópicos FIFO e as filas fifo com nomes significativos.
+   - Incluia o TIPO de feedback na nomenclatura, em inglês, por exemplo:
+     - Nome do tópico SNS: Feedback_Suggestion.fifo
+     - Nome da fila SQS: FeedbackSuggestion.fifo
+     - Faça a FILA SQS se inscrever no TÓPICO SNS.
 - Acesse a conta da amazon e faça manualmente a configuração da subscrição SQS/SNS.
 - Acesse GET api/info para Painel Administrativo.
 - Acesse GET api/size para Visão Geral.
@@ -325,3 +329,9 @@ SUB: Implementar Classe SqsService
 - Veja a mágica acontecendo através do frontend.
 
 
+## 6 - Considerações finais
+- Podem acontecer erros de processamento de informações no banco de dados EM MEMÓRIA se o programa for encerrado e depois for reiniciado para reprocessar a fila. Os erros de banco NÃO AFETAM o funcionamento do CONSUMO das informações antigas que porventura tenham ficado nas filas da AWS. Também NÃO AFETA novos envios ou novos consumos que possam decorrer do caso uso da aplicação restabelecida. 
+- Isso acontece porque os dados contidos no banco em memória serão perdidos e não poderão ser recuperados mais. Entretanto, o consumo dos dados e funcionamento GLOBAL da aplicação não é impactado por isso. Mantendo-se resiliente e tolerante a falhas de persistência em função do uso de um banco de dados em memória.
+- Solução: fazer a persistência num volume ou trocar o banco de dados.
+- Esses testes foram feitos para garantir a resiliência e a tolerância a falhas no backend.
+- Este exemplo foi desenvolvido utilizando DDD e Clean Archtecture.
