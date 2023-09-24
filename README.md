@@ -308,3 +308,20 @@ SUB: Implementar Classe SqsService
         [SqsSubscriberService](src/main/java/br/com/adatech/feedbackmanager/infra/aws/SqsSubscriberService.java)
   - service
     [Startup](src/main/java/br/com/adatech/feedbackmanager/Startup.java)
+
+## 6 - INSTRUÇÕES DE USO
+- Clone o repositório ou baixe o código fonte.
+- Execute o código.
+- Acesse GET localhost:8080/config para criar de forma automatizada as SNS e SQS na AWS.
+- Acesse a conta da amazon e faça manualmente a configuração da subscrição SQS/SNS.
+- Acesse GET api/info para Painel Administrativo.
+- Acesse GET api/size para Visão Geral.
+- Envie feedbacks em POST api/send.
+- Verifique se o seu feedback foi para a fila SQS da AWS adequadamente em GET api/size.
+  - Consuma seus feedbacks em ordem de envio através RequestParams:
+    - GET api/info?queue=Criticism
+    - GET api/info?queue=Compliment
+    - GET api/info?queue=Suggestion
+- Veja a mágica acontecendo através do frontend.
+
+
