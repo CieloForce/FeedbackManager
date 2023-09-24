@@ -46,7 +46,6 @@ public class SendFeedbackEnpointService {
             repository.update(customerFeedback.getUuid(), customerFeedback);
 
 
-
             return ResponseEntity.ok(customerFeedbackToJSON(customerFeedback));
         }catch (Exception e) {
             System.err.println(e.getMessage());

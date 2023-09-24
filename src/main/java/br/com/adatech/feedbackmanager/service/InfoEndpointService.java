@@ -20,8 +20,6 @@ public class InfoEndpointService {
 
     private final CustomerFeedbackService repository;
 
-
-
     private boolean nothingToConsume = false;
     @Autowired
     public InfoEndpointService(FeedbackReceiverService feedbackReceiverService, SqsService sqsService, CustomerFeedbackService repository){

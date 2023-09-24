@@ -6,13 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.sns.SnsAsyncClient;
 import software.amazon.awssdk.services.sns.SnsClient;
 
 /** Faz com que o spring faça a instanciação correta do nosso cliente sns. **/
 @Configuration
 public class AwsSnsConfig {
-
-
 
     @Value("${aws.accessKeyId}")
     private String accessKeyId;
@@ -31,7 +30,4 @@ public class AwsSnsConfig {
                 .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey)))
                 .build();
     }
-
 }
-//ativar a deduplicação na configuração da fila fifo.
-//usar o pacote com.amazonaws

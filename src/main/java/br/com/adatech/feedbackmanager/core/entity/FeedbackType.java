@@ -4,7 +4,7 @@ public enum FeedbackType {
 
     SUGGESTION("Suggestion"), //Duplicação sns ativada na aws, com desduplicação sqs, sem criptografia, com alto throughput --> limitação da transferência com base no GroupId
     COMPLIMENT("Compliment"), //Duplicação sns desativada na aws, com desduplicação sqs, sem criptografia, sem alto throughput --> realmente é necessário a desduplicação.
-    CRITISCISM("Criticism"); //Duplicação sns desativada na aws, com desduplicação, com criptografia, sem throughput
+    CRITICISM("Criticism"); //Duplicação sns desativada na aws, com desduplicação, com criptografia, sem throughput
 
     private final String description;
     FeedbackType(String description){
