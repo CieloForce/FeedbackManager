@@ -34,6 +34,14 @@ public class CustomerFeedback {
         this.messageId = messageId;
     }
 
+    public CustomerFeedback(String uuid, String messageId, String message, int feedbackType, int feedbackStatus) {
+        this.uuid = uuid;
+        this.messageId = messageId;
+        this.message = message;
+        this.type = FeedbackType.fromInteger(feedbackType);
+        this.status = FeedbackStatus.fromInteger(feedbackStatus);
+    }
+
     public String getUuid(){ return uuid; }
 
     public void setMessage(String message){ this.message = message; }
@@ -64,7 +72,7 @@ public class CustomerFeedback {
                 '}';
     }
 
-    /** Allow setting the messageId field afeter sucessfull sns topic publication **/
+    /** Allow setting the messageId field after sucessfull sns topic publication **/
     public void setMessageId(String messageId) {
         this.messageId = messageId;
     }

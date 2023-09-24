@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerFeedbackRepository extends JpaRepository<CustomerFeedback, String> {
-    CustomerFeedback findByMessageId(String messageId);
 }
