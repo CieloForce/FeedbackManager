@@ -7,7 +7,7 @@
 //import org.springframework.stereotype.Service;
 //
 //@Service
-//public class ConfigEndpointService {
+//public class TopicQueueConfig {
 //
 //    private final SnsTopicFactoryService topicFactoryService;
 //    private final SqsQueueFactoryService queueFactoryService;

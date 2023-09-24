@@ -19,6 +19,10 @@ public class SqsService {
         this.sqsClient = sqsClient;
     }
 
+    public SqsClient getSqsClient() {
+        return sqsClient;
+    }
+
     /** Obtém os atributos especificados para servir corretamente o payload requisitado pelo frontend **/
     public Map<QueueAttributeName, String> getQueueAttributes(String queueUrl){ //Funcionando
         Set<QueueAttributeName> queueAttributeNameList = new HashSet<>();

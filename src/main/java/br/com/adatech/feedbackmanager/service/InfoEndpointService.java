@@ -3,7 +3,7 @@ package br.com.adatech.feedbackmanager.service;
 import br.com.adatech.feedbackmanager.application.FeedbackReceiverService;
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
 import br.com.adatech.feedbackmanager.core.entity.FeedbackStatus;
-import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
+//import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
 import br.com.adatech.feedbackmanager.core.util.FeedbackTypeConverter;
 import br.com.adatech.feedbackmanager.dao.service.CustomerFeedbackService;
 import br.com.adatech.feedbackmanager.infra.aws.SqsService;
