@@ -34,6 +34,10 @@ public class CustomerFeedbackService {
         return repository.findById(id).orElseThrow( ()-> new CustomerFeedbackNotFoundException(id) );
     }
 
+    public CustomerFeedback findByMessageId(String id) {
+        return repository.findById(id).orElseThrow( ()-> new CustomerFeedbackNotFoundException(id) );
+    }
+
 
     /**
      *  Salva um novo CustomerFeedback
@@ -68,5 +72,9 @@ public class CustomerFeedbackService {
     public void delete(String id) {
         findById(id);
         repository.deleteById(id);
+    }
+
+    public CustomerFeedback findFeedbackByMessageId(String messageId) {
+        return repository.findByMessageId(messageId);
     }
 }

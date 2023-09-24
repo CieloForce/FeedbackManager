@@ -9,6 +9,7 @@ public class CustomerFeedback {
 
     @Id
     private String uuid;
+    @Column(unique = true)
     private String messageId;
     private String message;
     private FeedbackType type;

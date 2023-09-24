@@ -78,14 +78,19 @@ public class InfoEndpointService {
         try {
             System.out.println("Tentando buscar registro no banco de dados depois do consumo...");
             //Recupera CustomerFeedback do banco de dados
-            customerFeedback = repository.findById(messageId);
+            customerFeedback = repository.findByMessageId(messageId);
             System.out.println("Registro encontrado: " + customerFeedback.toString() );
             //Muda o status para finalizado
             customerFeedback.setStatus(FeedbackStatus.finished);
             //Salva a atualização no banco de dados
             repository.update(customerFeedback.getUuid(), customerFeedback);
+
+            /* Parece que o messageID gerado no momento da publicação é diferente
+            do messageID gerado pelo consumo para uma mesma mensagem.
+            Isso exige outra estratégia para buscar o CustomerFeedback no bd */
+
         } catch (Exception e) {
-            System.err.println("Ocorreu um erro ao processar CustomerFeedback consumido no banco de dados: " + e.getMessage());
+            System.err.println("Ocorreu um errinho ao recuperar CustomerFeedback consumido no banco de dados: " + e.getMessage());
             //Retornando o MessageID consumido
             System.out.println("Retornando o que foi consumido ao invés do objeto real do banco de dados para: " + queue);
             CustomerFeedback consumedCustomerFeedback = new CustomerFeedback(messagePayload, messageId, FeedbackTypeConverter.fromString(queue));
