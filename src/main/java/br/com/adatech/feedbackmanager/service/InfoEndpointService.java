@@ -3,6 +3,8 @@ package br.com.adatech.feedbackmanager.service;
 import br.com.adatech.feedbackmanager.application.FeedbackReceiverService;
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
 import br.com.adatech.feedbackmanager.core.entity.FeedbackStatus;
+import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
+import br.com.adatech.feedbackmanager.core.util.FeedbackTypeConverter;
 import br.com.adatech.feedbackmanager.dao.service.CustomerFeedbackService;
 import br.com.adatech.feedbackmanager.infra.aws.SqsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,8 +34,9 @@ public class InfoEndpointService {
             return "Bem-vindo ao Painel Administrativo. Envie seu feedback!";
         }
 
-        if(dequeueCustomerFeedbackFromSQS(queue) != null)
-            return fromObectToJSON(dequeueCustomerFeedbackFromSQS(queue));
+        CustomerFeedback result = dequeueCustomerFeedbackFromSQS(queue);
+        if(result != null)
+            return fromObectToJSON(result);
         else if(nothingToConsume){
             return "Nothing to consume!";
         }
@@ -64,21 +67,33 @@ public class InfoEndpointService {
 
         Message message = messages.get(0);
         String messageId = message.messageId();
+        String messagePayload = message.body();
         //deleta a mensagem da fila sqs considerando o acesso distribuído entre consumidores, representado pelo mesmo endpoint.
         feedbackReceiverService.deleteMessage(queueUrl, message.receiptHandle());
         System.out.println("ID da mensagem consumida: " + messageId);
+       // return fromObectToJSON(messageId); //Até aqui OK. Retirar persistência se problema continuar.
+
+        // Problema na persistencia mapeado.
         CustomerFeedback customerFeedback = null;
         try {
+            System.out.println("Tentando buscar registro no banco de dados depois do consumo...");
             //Recupera CustomerFeedback do banco de dados
             customerFeedback = repository.findById(messageId);
+            System.out.println("Registro encontrado: " + customerFeedback.toString() );
             //Muda o status para finalizado
             customerFeedback.setStatus(FeedbackStatus.finished);
             //Salva a atualização no banco de dados
             repository.update(customerFeedback.getUuid(), customerFeedback);
         } catch (Exception e) {
             System.err.println("Ocorreu um erro ao processar CustomerFeedback consumido no banco de dados: " + e.getMessage());
+            //Retornando o MessageID consumido
+            System.out.println("Retornando o que foi consumido ao invés do objeto real do banco de dados para: " + queue);
+            CustomerFeedback consumedCustomerFeedback = new CustomerFeedback(messagePayload, messageId, FeedbackTypeConverter.fromString(queue));
+            consumedCustomerFeedback.setStatus(FeedbackStatus.finished);
+            //Retorna o objeto consumido de acordo com a Aws.
+            return consumedCustomerFeedback;
         }
-        //Retorna o objeto consumido corretamente
+        //Retorna o objeto consumido corretamente de acordo com o banco de dados.
         return customerFeedback;
     }
     public String fromObectToJSON(Object object){

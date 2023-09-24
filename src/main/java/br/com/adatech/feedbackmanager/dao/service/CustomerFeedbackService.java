@@ -56,6 +56,7 @@ public class CustomerFeedbackService {
         modelUpdated.setType(model.getType());
         modelUpdated.setStatus(model.getStatus());
         modelUpdated.setMessage(model.getMessage());
+        modelUpdated.setMessageId(model.getMessageId());
         repository.save(modelUpdated);
         return modelUpdated;
     }

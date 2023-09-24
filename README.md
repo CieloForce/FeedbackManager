@@ -314,22 +314,22 @@ SUB: Implementar Classe SqsService
 - Execute o código.
   - Crie manualmente os tópicos FIFO e as filas fifo com nomes significativos.
    - Incluia o TIPO de feedback na nomenclatura, em inglês, por exemplo:
-     - Nome do tópico SNS: Feedback_Suggestion.fifo
-     - Nome da fila SQS: FeedbackSuggestion.fifo
+     - Nome do tópico SNS: Feedback_Suggestion.fifo, Feedback_Compliment.fifo, Feedback_Criticism.fifo
+     - Nome da fila SQS: FeedbackSuggestion.fifo, ...
      - Faça a FILA SQS se inscrever no TÓPICO SNS.
      - Certifique-se de usar a região Norte da Virgínia: us-east-1
      - Na criação do tópico SNS, marque a opção FIFO e ative a deduplicação.
      - Na criação da fila SQS, marque FIFO e habilite Desduplicação, alto throughput e desabilite a criptografia para um caso de uso mais simplificado.
      - Mantenha as demais configurções conforme padrão.
 - Lembre de fazer manualmente a configuração da subscrição SQS/SNS, sempre inscrevendo a FILA SQS em um TÓPICO SNS, fluxos de teste em caso reverso ainda não estão considerados.
-- Acesse GET api/info para Painel Administrativo.
+- Acesse GET api/info para Painel Administrativo do consumo de mensagens.
 - Acesse GET api/size para Visão Geral.
 - Envie feedbacks em POST api/send.
 - Verifique se o seu feedback foi para a fila SQS da AWS adequadamente em GET api/size.
   - Consuma seus feedbacks em ordem de envio através RequestParams:
-    - GET api/info?queue=Criticism
-    - GET api/info?queue=Compliment
-    - GET api/info?queue=Suggestion
+    - GET api/info?queue=Criticism: indique apenas o tipo.
+    - GET api/info?queue=Compliment: indique apenas o tipo.
+    - GET api/info?queue=Suggestion: indique apenas o tipo.
 - Veja a mágica acontecendo através do frontend.
 
 

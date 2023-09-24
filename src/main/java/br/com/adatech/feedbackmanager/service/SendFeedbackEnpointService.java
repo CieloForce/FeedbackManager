@@ -41,9 +41,15 @@ public class SendFeedbackEnpointService {
             //Publica CustomerFeedback nos tópicos SNS conforme o FeedbackType
             this.feedbackSenderService.sendCustomerFeedback(customerFeedback);
 
+            System.out.println("Check customerFeedback no sender: " + customerFeedback.toString());
+
             //Atualiza o status do CustomerFeedback para "em processamento" e atualiza o valor dele no banco de dados.
             customerFeedback.setStatus(FeedbackStatus.processing);
             repository.update(customerFeedback.getUuid(), customerFeedback);
+            //método update atualizado para setar MessageId: camada de persistência corrigida
+
+            System.out.println("Check customerFeedback no sender depois do update: " + customerFeedback.toString());
+            // o estado se mantém.
 
 
             return ResponseEntity.ok(customerFeedbackToJSON(customerFeedback));

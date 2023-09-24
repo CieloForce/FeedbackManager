@@ -24,6 +24,14 @@ public class CustomerFeedback {
         this.message = message;
         this.type = type;
     }
+    public CustomerFeedback(String message, String messageId, FeedbackType type)
+    {
+        this();
+        this.uuid = UUID.randomUUID().toString();
+        this.message = message;
+        this.type = type;
+        this.messageId = messageId;
+    }
 
     public String getUuid(){ return uuid; }
 
@@ -42,6 +50,17 @@ public class CustomerFeedback {
     /** Allow to recover the right message from the database after sucessfull consumption **/
     public String getMessageId() {
         return messageId;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerFeedback{" +
+                "uuid='" + uuid + '\'' +
+                ", messageId='" + messageId + '\'' +
+                ", message='" + message + '\'' +
+                ", type=" + type +
+                ", status=" + status +
+                '}';
     }
 
     /** Allow setting the messageId field afeter sucessfull sns topic publication **/

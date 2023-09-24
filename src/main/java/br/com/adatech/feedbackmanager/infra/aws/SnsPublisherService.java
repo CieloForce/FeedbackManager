@@ -3,6 +3,7 @@ package br.com.adatech.feedbackmanager.infra.aws;
 import br.com.adatech.feedbackmanager.adapter.FeedbackSenderAdapter;
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
 import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
+import br.com.adatech.feedbackmanager.dao.service.CustomerFeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.sns.SnsClient;
@@ -17,19 +18,22 @@ import java.util.List;
 public class SnsPublisherService implements FeedbackSenderAdapter {
 
     private final SnsClient snsClient;
-    private final SnsTopicFactoryService topicFactory;
+    private final CustomerFeedbackService repository;
 
     @Autowired
-    public SnsPublisherService(SnsClient snsClient, SnsTopicFactoryService topicFactory){
+    public SnsPublisherService(SnsClient snsClient, CustomerFeedbackService repository){
        this.snsClient = snsClient;
-       this.topicFactory = topicFactory;
+       this.repository = repository;
     }
 
     @Override
     public void sendCustomerFeedback(CustomerFeedback customerFeedback) {
         //Faz a publicação do CustomerFeedback no tópico Sns correspondente ao FeedbackType.
         String messageId = publishCustomerFeedbackToAwsSnsTopic(customerFeedback);
+        System.out.println("MessageID retorna pelo publisher: " + messageId);
         customerFeedback.setMessageId(messageId);
+        // Fazendo a persistência corretamente com o MessageId do envio para o SNS.
+        repository.update(customerFeedback.getUuid(), customerFeedback);
     }
 
     /** Faz a publicação do CustomerFeedback no tópico SNS da AWS conforme o FeedbackType. **/
