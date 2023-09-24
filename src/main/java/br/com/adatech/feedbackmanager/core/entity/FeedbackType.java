@@ -6,6 +6,14 @@ public enum FeedbackType {
     COMPLIMENT("Compliment"), //Duplicação sns desativada na aws, com desduplicação sqs, sem criptografia, sem alto throughput --> realmente é necessário a desduplicação.
     CRITICISM("Criticism"); //Duplicação sns desativada na aws, com desduplicação, com criptografia, sem throughput
 
+    public static FeedbackType fromInteger(int value) {
+        return switch (value) {
+            case 0 -> SUGGESTION;
+            case 1 -> COMPLIMENT;
+            case 2 -> CRITICISM;
+            default -> throw new IllegalArgumentException("Valor inválido para FeedbackType: " + value);
+        };
+    }
     private final String description;
     FeedbackType(String description){
         this.description = description;

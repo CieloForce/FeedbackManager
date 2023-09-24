@@ -1,11 +1,13 @@
 package br.com.adatech.feedbackmanager.dao.service;
 
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
+import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
 import br.com.adatech.feedbackmanager.dao.repository.CustomerFeedbackRepository;
 import br.com.adatech.feedbackmanager.core.exception.CustomerFeedbackNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.*;
 import java.util.List;
 
 @Service
@@ -33,11 +35,6 @@ public class CustomerFeedbackService {
     public CustomerFeedback findById(String id) {
         return repository.findById(id).orElseThrow( ()-> new CustomerFeedbackNotFoundException(id) );
     }
-
-    public CustomerFeedback findByMessageId(String id) {
-        return repository.findById(id).orElseThrow( ()-> new CustomerFeedbackNotFoundException(id) );
-    }
-
 
     /**
      *  Salva um novo CustomerFeedback
@@ -74,7 +71,32 @@ public class CustomerFeedbackService {
         repository.deleteById(id);
     }
 
+    //JPA não consegue encontrar o messageID corretamente porque temos um objeto complexo Então precisa ser "na unha".
+    /** Forçando o encontro de messageID no banco de dados corrente **/
     public CustomerFeedback findFeedbackByMessageId(String messageId) {
-        return repository.findByMessageId(messageId);
+
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:h2:mem:feedbackdb", "sa", "p123");
+            String sql = "SELECT * FROM CUSTOMER_FEEDBACK WHERE MESSAGE_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, messageId);
+
+            ResultSet rs = statement.executeQuery();
+
+            CustomerFeedback customerFeedback = null;
+            while(rs.next()){
+                String uuid = rs.getString("uuid");
+                String message = rs.getString("message");
+                int feedbackType = rs.getInt("type");
+                int feedbackStatus = rs.getInt("status");
+                customerFeedback = new CustomerFeedback(uuid, messageId, message, feedbackType, feedbackStatus);
+            }
+            return customerFeedback;
+        } catch (SQLException e){
+            System.err.println("Ocorreu um erro ao buscar CustomerFeedback pelo messageID: " + e.getMessage());
+            System.err.println("Banco em memória anterior pode ter sido deletado.");
+            return null;
+        }
+
     }
 }

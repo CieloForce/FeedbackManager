@@ -3,7 +3,7 @@ package br.com.adatech.feedbackmanager.service;
 import br.com.adatech.feedbackmanager.application.FeedbackReceiverService;
 import br.com.adatech.feedbackmanager.core.entity.CustomerFeedback;
 import br.com.adatech.feedbackmanager.core.entity.FeedbackStatus;
-import br.com.adatech.feedbackmanager.core.entity.FeedbackType;
+
 import br.com.adatech.feedbackmanager.core.util.FeedbackTypeConverter;
 import br.com.adatech.feedbackmanager.dao.service.CustomerFeedbackService;
 import br.com.adatech.feedbackmanager.infra.aws.SqsService;
@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.sqs.model.Message;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class InfoEndpointService {
@@ -66,8 +68,13 @@ public class InfoEndpointService {
         }
 
         Message message = messages.get(0);
-        String messageId = message.messageId();
-        String messagePayload = message.body();
+        String messageId = message.messageId(); //Este é o messageID do consumo, não é o messageID da mensagem que foi publicada e consumida!
+        String messagePayload = message.body(); // O messageID da mensagem enviada e consumida está aqui dentro.
+
+       String desiredMessageID = getFieldFromJson(messagePayload, "MessageId");
+       System.out.println("THE REAL MESSAGE ID: " + desiredMessageID);
+
+
         //deleta a mensagem da fila sqs considerando o acesso distribuído entre consumidores, representado pelo mesmo endpoint.
         feedbackReceiverService.deleteMessage(queueUrl, message.receiptHandle());
         System.out.println("ID da mensagem consumida: " + messageId);
@@ -78,7 +85,7 @@ public class InfoEndpointService {
         try {
             System.out.println("Tentando buscar registro no banco de dados depois do consumo...");
             //Recupera CustomerFeedback do banco de dados
-            customerFeedback = repository.findByMessageId(messageId);
+            customerFeedback = repository.findFeedbackByMessageId(desiredMessageID); //Passando o REAL messageID do objeto!
             System.out.println("Registro encontrado: " + customerFeedback.toString() );
             //Muda o status para finalizado
             customerFeedback.setStatus(FeedbackStatus.finished);
@@ -87,13 +94,13 @@ public class InfoEndpointService {
 
             /* Parece que o messageID gerado no momento da publicação é diferente
             do messageID gerado pelo consumo para uma mesma mensagem.
-            Isso exige outra estratégia para buscar o CustomerFeedback no bd */
+            Isso exige outra estratégia para buscar o CustomerFeedback no bd. */
 
         } catch (Exception e) {
-            //System.out.println("Não foi possível recuperar CustomerFeedback consumido no banco de dados: " + e.getMessage());
+            System.out.println("Não foi possível recuperar CustomerFeedback consumido no banco de dados: " + e.getMessage());
             //Retornando o MessageID consumido
-            System.out.println("Retornando o que foi consumido ao invés do objeto real do banco de dados para: " + queue);
-            CustomerFeedback consumedCustomerFeedback = new CustomerFeedback(messagePayload, messageId, FeedbackTypeConverter.fromString(queue));
+            System.out.println("Retornando o que foi consumido na fila SQS ao invés do objeto real do banco de dados para: " + queue);
+            CustomerFeedback consumedCustomerFeedback = new CustomerFeedback(messagePayload, desiredMessageID, FeedbackTypeConverter.fromString(queue));
             consumedCustomerFeedback.setStatus(FeedbackStatus.finished);
             //Retorna o objeto consumido de acordo com a Aws.
             return consumedCustomerFeedback;
@@ -113,5 +120,21 @@ public class InfoEndpointService {
 
     public void setNothingToConsume(boolean nothingToConsume) {
         this.nothingToConsume = nothingToConsume;
+    }
+
+    public static String getFieldFromJson(String jsonString, String field) {
+        // Remova os caracteres de escape da string JSON
+        jsonString = jsonString.replace("\\n", "").replace("\\", "");
+
+        // Use uma expressão regular para encontrar o valor do campo MessageId
+        String regex = "\"" + field + "\"\\s*:\\s*\"([^\"]+)\"";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(jsonString);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            return null;
+        }
     }
 }
