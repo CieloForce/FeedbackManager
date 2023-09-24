@@ -317,7 +317,11 @@ SUB: Implementar Classe SqsService
      - Nome do tópico SNS: Feedback_Suggestion.fifo
      - Nome da fila SQS: FeedbackSuggestion.fifo
      - Faça a FILA SQS se inscrever no TÓPICO SNS.
-- Acesse a conta da amazon e faça manualmente a configuração da subscrição SQS/SNS.
+     - Certifique-se de usar a região Norte da Virgínia: us-east-1
+     - Na criação do tópico SNS, marque a opção FIFO e ative a deduplicação.
+     - Na criação da fila SQS, marque FIFO e habilite Desduplicação, alto throughput e desabilite a criptografia para um caso de uso mais simplificado.
+     - Mantenha as demais configurções conforme padrão.
+- Lembre de fazer manualmente a configuração da subscrição SQS/SNS, sempre inscrevendo a FILA SQS em um TÓPICO SNS, fluxos de teste em caso reverso ainda não estão considerados.
 - Acesse GET api/info para Painel Administrativo.
 - Acesse GET api/size para Visão Geral.
 - Envie feedbacks em POST api/send.
@@ -333,5 +337,6 @@ SUB: Implementar Classe SqsService
 - Podem acontecer erros de processamento de informações no banco de dados EM MEMÓRIA se o programa for encerrado e depois for reiniciado para reprocessar a fila. Os erros de banco NÃO AFETAM o funcionamento do CONSUMO das informações antigas que porventura tenham ficado nas filas da AWS. Também NÃO AFETA novos envios ou novos consumos que possam decorrer do caso uso da aplicação restabelecida. 
 - Isso acontece porque os dados contidos no banco em memória serão perdidos e não poderão ser recuperados mais. Entretanto, o consumo dos dados e funcionamento GLOBAL da aplicação não é impactado por isso. Mantendo-se resiliente e tolerante a falhas de persistência em função do uso de um banco de dados em memória.
 - Solução: fazer a persistência num volume ou trocar o banco de dados.
-- Esses testes foram feitos para garantir a resiliência e a tolerância a falhas no backend.
+- Esses testes foram feitos para garantir a resiliência e a tolerância a falhas no backend no fluxo de configurações apresentados nas instruções de uso.
 - Este exemplo foi desenvolvido utilizando DDD e Clean Archtecture.
+- Existem várias branches de testes que devem ser feitos para garantir totalmente a resiliência da aplicação quanto à integração com a AWS.
