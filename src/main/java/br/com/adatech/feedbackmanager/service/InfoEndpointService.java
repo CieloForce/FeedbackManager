@@ -90,7 +90,7 @@ public class InfoEndpointService {
             Isso exige outra estratégia para buscar o CustomerFeedback no bd */
 
         } catch (Exception e) {
-            System.err.println("Ocorreu um errinho ao recuperar CustomerFeedback consumido no banco de dados: " + e.getMessage());
+            //System.out.println("Não foi possível recuperar CustomerFeedback consumido no banco de dados: " + e.getMessage());
             //Retornando o MessageID consumido
             System.out.println("Retornando o que foi consumido ao invés do objeto real do banco de dados para: " + queue);
             CustomerFeedback consumedCustomerFeedback = new CustomerFeedback(messagePayload, messageId, FeedbackTypeConverter.fromString(queue));
