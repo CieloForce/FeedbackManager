@@ -340,3 +340,5 @@ SUB: Implementar Classe SqsService
 - Esses testes foram feitos para garantir a resiliência e a tolerância a falhas no backend no fluxo de configurações apresentados nas instruções de uso.
 - Este exemplo foi desenvolvido utilizando DDD e Clean Archtecture.
 - Existem várias branches de testes que devem ser feitos para garantir totalmente a resiliência da aplicação quanto à integração com a AWS.
+
+  - À equipe de __avaliação ADA__: no meu usuário sandbox da Aws já existem filas sqs e sns configuradas e zeradas, prontas para serem testadas, mas ao critério de vocês pode ser feito novas configurações seguindo as especificações das instruções de uso. 
