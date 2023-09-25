@@ -342,8 +342,8 @@ SUB: Implementar Classe SqsService
 <a id="demo"></a>
 ## 7. Demonstração
 
-- [Back-end swagger-ui](http://ec2-3-82-252-4.compute-1.amazonaws.com:8080/swagger-ui.html)
-- [Front-end](http://ec2-3-82-252-4.compute-1.amazonaws.com:4200)
+- [Back-end swagger-ui](http://ec2-52-207-25-62.compute-1.amazonaws.com:8080/swagger-ui.html)
+- [Front-end](http://ec2-52-207-25-62.compute-1.amazonaws.com:4200)
 
 
 
