@@ -122,7 +122,7 @@ public class InfoEndpointService {
         this.nothingToConsume = nothingToConsume;
     }
 
-    public static String getFieldFromJson(String jsonString, String field) {
+    public String getFieldFromJson(String jsonString, String field) {
         // Remova os caracteres de escape da string JSON
         jsonString = jsonString.replace("\\n", "").replace("\\", "");
 
