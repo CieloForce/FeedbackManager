@@ -12,8 +12,9 @@ Abaixo a documentação do serviço de feedback de clientes usando a Amazon Simp
 - [4. Instalação](#instalacao)
 - [5. Arquitetura](#arquitetura)
 - [6. Uso](#uso)
-- [7. Contribuição](#contribuição)
-- [8. Licença](#licença)
+- [7. Demonstração](#demo)
+- [8. Contribuição](#contribuição)
+- [9. Licença](#licença)
 
 <a id="desafio"></a>
 ## 1. Desafio
@@ -273,6 +274,7 @@ SUB: Implementar Classe SqsService
     [FeedbackSenderService](src/main/java/br/com/adatech/feedbackmanager/application/FeedbackSenderService.java)
   - controller\
     [InfoEndpointController](src/main/java/br/com/adatech/feedbackmanager/controller/InfoEndpointController.java)\
+  - [QueueController](src/main/java/br/com/adatech/feedbackmanager/controller/QueueController.java)\
     [SendFeedbackEndpointController](src/main/java/br/com/adatech/feedbackmanager/controller/SendFeedbackEndpointController.java)\
     [SizeEndpointController](src/main/java/br/com/adatech/feedbackmanager/controller/SizeEndpointController.java)
   - core
@@ -307,8 +309,13 @@ SUB: Implementar Classe SqsService
         [SqsService](src/main/java/br/com/adatech/feedbackmanager/infra/aws/SqsService.java)\
         [SqsSubscriberService](src/main/java/br/com/adatech/feedbackmanager/infra/aws/SqsSubscriberService.java)
   - service
-    [Startup](src/main/java/br/com/adatech/feedbackmanager/Startup.java)
+    [InfoEndpointService](src/main/java/br/com/adatech/feedbackmanager/service/InfoEndpointService.java)\
+    [QueueService](src/main/java/br/com/adatech/feedbackmanager/service/QueueService.java)\
+    [SendFeedbackEnpointService](src/main/java/br/com/adatech/feedbackmanager/service/SendFeedbackEnpointService.java)\
+    [SizeEndpointService](src/main/java/br/com/adatech/feedbackmanager/service/SizeEndpointService.java)
+  [Startup](src/main/java/br/com/adatech/feedbackmanager/Startup.java)
 
+<a id="uso"></a>
 ## 6 - INSTRUÇÕES DE USO
 - Clone o repositório ou baixe o código fonte.
 - Execute o código.
@@ -332,13 +339,20 @@ SUB: Implementar Classe SqsService
     - GET api/info?queue=Suggestion: indique apenas o tipo.
 - Veja a mágica acontecendo através do frontend.
 
+<a id="demo"></a>
+## 7. Demonstração
 
-## 6 - Considerações finais
-- Podem acontecer erros de processamento de informações no banco de dados EM MEMÓRIA se o programa for encerrado e depois for reiniciado para reprocessar a fila. Os erros de banco NÃO AFETAM o funcionamento do CONSUMO das informações antigas que porventura tenham ficado nas filas da AWS. Também NÃO AFETA novos envios ou novos consumos que possam decorrer do caso uso da aplicação restabelecida. 
-- Isso acontece porque os dados contidos no banco em memória serão perdidos e não poderão ser recuperados mais. Entretanto, o consumo dos dados e funcionamento GLOBAL da aplicação não é impactado por isso. Mantendo-se resiliente e tolerante a falhas de persistência em função do uso de um banco de dados em memória.
-- Solução: fazer a persistência num volume ou trocar o banco de dados.
-- Esses testes foram feitos para garantir a resiliência e a tolerância a falhas no backend no fluxo de configurações apresentados nas instruções de uso.
-- Este exemplo foi desenvolvido utilizando DDD e Clean Archtecture.
-- Existem várias branches de testes que devem ser feitos para garantir totalmente a resiliência da aplicação quanto à integração com a AWS.
+- [Back-end swagger-ui](http://ec2-3-82-252-4.compute-1.amazonaws.com:8080/swagger-ui.html)
+- [Front-end](http://ec2-3-82-252-4.compute-1.amazonaws.com:4200)
 
-  - À equipe de __avaliação ADA__: no meu usuário sandbox da Aws já existem filas sqs e sns configuradas e zeradas, prontas para serem testadas, mas ao critério de vocês pode ser feito novas configurações seguindo as especificações das instruções de uso. 
+
+
+>## Considerações finais
+>- Podem acontecer erros de processamento de informações no banco de dados EM MEMÓRIA se o programa for encerrado e depois for reiniciado para reprocessar a fila. Os erros de banco NÃO AFETAM o funcionamento do CONSUMO das informações antigas que porventura tenham ficado nas filas da AWS. Também NÃO AFETA novos envios ou novos consumos que possam decorrer do caso uso da aplicação restabelecida. 
+>- Isso acontece porque os dados contidos no banco em memória serão perdidos e não poderão ser recuperados mais. Entretanto, o consumo dos dados e funcionamento GLOBAL da aplicação não é impactado por isso. Mantendo-se resiliente e tolerante a falhas de persistência em função do uso de um banco de dados em memória.
+>- Solução: fazer a persistência num volume ou trocar o banco de dados.
+>- Esses testes foram feitos para garantir a resiliência e a tolerância a falhas no backend no fluxo de configurações apresentados nas instruções de uso.
+>- Este exemplo foi desenvolvido utilizando DDD e Clean Archtecture.
+>- Existem várias branches de testes que devem ser feitos para garantir totalmente a resiliência da aplicação quanto à integração com a AWS.
+>
+>- À equipe de __avaliação ADA__: no meu usuário sandbox da Aws já existem filas sqs e sns configuradas e zeradas, prontas para serem testadas, mas ao critério de vocês pode ser feito novas configurações seguindo as especificações das instruções de uso. 
